@@ -50,13 +50,13 @@
   (glut:PostRedisplay))
 
 (define (initFunc)
-  ; (gl:ShadeModel gl:SMOOTH)
+   (gl:ShadeModel gl:SMOOTH)
   (gl:ClearColor 1 1 1 1)
-  ; (gl:ClearDepth 1)
-  ; (gl:Enable gl:DEPTH_TEST)
-  ; (gl:DepthFunc gl:LEQUAL)
-  ; (gl:BindBuffer 0 0)
-  ;
+   (gl:ClearDepth 1)
+   (gl:Enable gl:DEPTH_TEST)
+   (gl:DepthFunc gl:LEQUAL)
+   (gl:BindBuffer 0 0)
+  
   (set! vbo_triangle (CreateVBO (f32vector  0.0 0.8 -0.8 -0.8 0.8 -0.8)))
 
   (set! program (CreatePorgram (list
@@ -86,17 +86,17 @@
 (define (reshapeFunc width height)
   (initFunc)
 
-  ; (gl:Viewport 0 0 width height)
-  ; (gl:MatrixMode gl:PROJECTION)
-  ; (gl:LoadIdentity)
-  ; (glu:Perspective 45 (/ width height) 0.1 100)
+  (gl:Viewport 0 0 width height)
+  (gl:MatrixMode gl:PROJECTION)
+  (gl:LoadIdentity)
+  (glu:Perspective 45 (/ width height) 0.1 100)
             
-  ; (gl:MatrixMode gl:MODELVIEW)
-  ; (gl:LoadIdentity)
+  (gl:MatrixMode gl:MODELVIEW)
+  (gl:LoadIdentity)
 
-  ; (gl:Enable gl:LIGHTING)
-  ; (gl:Enable gl:LIGHT0)
-  ; (gl:Enable gl:DEPTH_TEST)
+  (gl:Enable gl:LIGHTING)
+  (gl:Enable gl:LIGHT0)
+  (gl:Enable gl:DEPTH_TEST)
   (gl:Enable gl:BLEND)
   (gl:BlendFunc gl:SRC_ALPHA gl:ONE_MINUS_SRC_ALPHA)
 

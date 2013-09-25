@@ -17,7 +17,7 @@
       (draw-tail (- size 1) angle (- cube-size 0.05))))))
 
 (define angle 0)
-(define direction 0.1)
+(define direction 0.01)
 (define max-angle 10)
 (define min-angle -10)
 

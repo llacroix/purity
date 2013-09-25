@@ -1,9 +1,14 @@
 (require-extension gl glu glut)
 (require-extension srfi-19-core)
 
-(require "setup")
+
+(define folder (if (equal? (command-line-arguments) '())
+                 "defaults"
+                 (car (command-line-arguments))))
+
+(require (string-append folder "/" "setup"))
 (require "inputs")
-(require "renderer")
+(require (string-append folder "/" "renderer"))
 
 (let ((engine (makeEngine)))
   (glut:DisplayFunc renderFunc)
