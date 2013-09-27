@@ -1,40 +1,49 @@
 (require-extension posix-extras)
-(require-extension gl glu glut)
+(require-extension gl glu glut glm)
 (require-extension srfi-4)
 (require-extension srfi-19-core)
 (require-extension lolevel)
 
-(define (renderFunc)
-  (gl:Clear gl:COLOR_BUFFER_BIT)
 
-  (gl:LoadIdentity)
-  (glu:LookAt 6 3 10
-              0 0 0
-              0 1 0)
+(define swidth 1)
+(define sheight 1)
+
+(define projection (perspective 45.0 (* 1.0 (/ swidth sheight)) 0.01 100.0))
+(define view (look-at (vec3 0 0 -50)
+                      (vec3 0 0 0)
+                      (vec3 0 1 0)))
+(define rotangle 0)
+
+
+(define (SetMatrix inModel)
   (gl:UseProgram program)
-  (gl:EnableVertexAttribArray attribute_coord2d)
+  (gl:UniformMatrix4fv uniform 1 #\0 (mat-data (m* (m* projection view) inModel))))
 
-  (gl:VertexAttribPointer
-    attribute_coord2d
-    3
-    gl:FLOAT
-    #\0
-    0
-    #f)
+(define (renderFunc)
+  (gl:UniformMatrix4fv uniform 1 #\0 (mat-data (m* projection view)))
 
-  ; (glut:SolidCube 1)
+  (gl:Clear (+ gl:COLOR_BUFFER_BIT gl:DEPTH_BUFFER_BIT))
 
-  (gl:PushMatrix)
-  (gl:Rotated 90 1 0 1)
+  (define model  (translate (mat4 1) (vec3 -10 0 0)))
+  (define model1 (translate (mat4 1) (vec3 10 0 0)))
+
+  (SetMatrix model)
+  (gl:EnableVertexAttribArray attribute_coord3d)
   (gl:Begin gl:TRIANGLES)
-    (gl:Vertex3f 0.0 0.8 1)
-    (gl:Vertex3f -0.8 -0.8 1)
-    (gl:Vertex3f 0.8 -0.8 -1)
+    (gl:Vertex3f  0  1 0)
+    (gl:Vertex3f -1 -1 0)
+    (gl:Vertex3f  1 -1 0)
   (gl:End)
-  (gl:PopMatrix)
+  (gl:DisableVertexAttribArray attribute_coord3d)
 
-  (gl:DisableVertexAttribArray attribute_coord2d)
+  (SetMatrix model1)
+  (gl:EnableVertexAttribArray attribute_coord3d)
+  (gl:Begin gl:TRIANGLES)
+    (gl:Vertex3f  0  1 0)
+    (gl:Vertex3f -1 -1 0)
+    (gl:Vertex3f  1 -1 0)
+  (gl:End)
+  (gl:DisableVertexAttribArray attribute_coord3d)
 
-  (sleep 0.5)
-
+  (gl:UniformMatrix4fv uniform 1 #\0 (mat-data (mat4 1)))
   (glut:SwapBuffers))

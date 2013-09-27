@@ -12,10 +12,34 @@
   (let ((vboidx (u32vector 0)))
     (gl:GenBuffers 1 vboidx)
     (gl:BindBuffer gl:ARRAY_BUFFER (u32vector-ref vboidx 0))
-    (gl:BufferData gl:ARRAY_BUFFER (* 4 (f32vector-length vertices)) (object->pointer vertices) gl:STATIC_DRAW)
+    (gl:BufferData gl:ARRAY_BUFFER (f32vector-size vertices) (make-locative vertices) gl:STATIC_DRAW)
+    (print "VBO id: " vboidx)
     (u32vector-ref vboidx 0)))
 
-(define (CreatePorgram shaders)
+(define (CreateVBO32 type mode vertices)
+  (let ((vboidx (u32vector 0)))
+    (gl:GenBuffers 1 vboidx)
+    (gl:BindBuffer type (u32vector-ref vboidx 0))
+    (gl:BufferData type
+                   (f32vector-size vertices)
+                   (make-locative vertices)
+                   mode)
+    (print "VBO id: " vboidx)
+    (u32vector-ref vboidx 0)))
+
+(define (CreateVBO16 type mode vertices)
+  (let ((id (u32vector 0)))
+     (gl:GenBuffers 1 id)
+     (gl:BindBuffer type 
+                    (u32vector-ref id 0))
+     (gl:BufferData type 
+                    (* 2 (u16vector-length vertices))
+                    (make-locative vertices)
+                    mode)
+     (print "VBO id: " id)
+     (u32vector-ref id 0)))
+
+(define (CreateProgram shaders)
   (let ((program (gl:CreateProgram)))
     (for-each (lambda (shader)
                 (gl:AttachShader program shader))
@@ -34,6 +58,6 @@
 
     (let ((status (s32vector 0)))
       (gl:GetShaderiv shader gl:COMPILE_STATUS status)
-      (print status))
+      (print "Shader status" status))
 
     shader))

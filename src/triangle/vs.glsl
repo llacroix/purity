@@ -1,4 +1,6 @@
-attribute vec3 coord2d;
+uniform mat4 m_mvp;
+attribute vec4 coord3d;
+
 void main(void) {
-      gl_Position = vec4(coord2d, 1.0);
+      gl_Position = m_mvp * vec4(coord3d.xyz, 1.0);
 }

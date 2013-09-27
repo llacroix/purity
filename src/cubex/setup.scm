@@ -10,6 +10,8 @@
 (require "common/opengl")
 (require "common/vector")
 
+(define vp (mat4 1))
+(define anim (mat4 1))
 (define program 0)
 (define uniform_mvp 0)
 (define attribute_coord3d 0)
@@ -87,8 +89,8 @@
      (gl:BufferData gl:ELEMENT_ARRAY_BUFFER (* 2 (u16vector-length cube_elements)) (make-locative cube_elements) gl:STATIC_DRAW)
      (u32vector-ref id 0)))
 
-  (define vs (CreateShader gl:VERTEX_SHADER (LoadScript "cube/cube.v.glsl")))
-  (define fs (CreateShader gl:FRAGMENT_SHADER (LoadScript "cube/cube.f.glsl")))
+  (define vs (CreateShader gl:VERTEX_SHADER (LoadScript "cubex/cube.v.glsl")))
+  (define fs (CreateShader gl:FRAGMENT_SHADER (LoadScript "cubex/cube.f.glsl")))
 
   (set! program (CreateProgram (list vs fs)))
 
@@ -111,19 +113,16 @@
   ; ??? like in text file
   (define angle (* (glut:Get glut:ELAPSED_TIME) (/ 1 1000) 45))
   (define axis_y (vec3 0 1 0))
-  (define anim (rotate (mat4 1.0) angle axis_y))
 
-  (define model (translate anim (vec3 0 0 -4)))
+  (set! anim (rotate (mat4 1.0) angle axis_y))
 
   (define view (look-at (vec3 0 2 10)
                         (vec3 0 0 -4)
                         (vec3 0 1 0)))
   (define projection (perspective 45.0 (* 1.0 (/ 800 600)) 0.1 20.0))
 
-  (set! mvp (m* (m* (m* projection view) model) anim))
+  (set! vp (m* (m* projection view) anim))
 
-  (gl:UseProgram program)
-  (gl:UniformMatrix4fv uniform_mvp 1 gl:FALSE (mat-data mvp))
   (glut:PostRedisplay))
 
 (define (reshapeFunc width height)
