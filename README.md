@@ -32,4 +32,4 @@ like millions of rainbows.
 Last Screenshot
 ===============
 
-![ScreenShot](screenshots/sc1.jpg)
+![ScreenShot](screenshots/sc1.png)
