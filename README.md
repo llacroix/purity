@@ -28,3 +28,8 @@ bored of doing websites? Well Opengl is a nice thing that has been around for a 
 Scheme has been there for a while too...and I feel that people forgot what having fun
 is all about. So I'm bringing those two old things together and try to make it shine
 like millions of rainbows.
+
+Last Screenshot
+===============
+
+![ScreenShot](screenshots/sc1.jpg)
