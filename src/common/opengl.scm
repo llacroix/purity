@@ -61,3 +61,21 @@
       (print "Shader status" status))
 
     shader))
+
+
+(define (CreateTexture type img)
+  (let ((id (u32vector 0)))
+    (gl:GenTextures 1 id)
+    (gl:BindTexture type (u32vector-ref id 0))
+    (gl:TexParameteri type gl:TEXTURE_MIN_FILTER gl:LINEAR)
+    (gl:TexImage2D type
+                   0
+                   gl:RGB
+                   (image-width img)
+                   (image-height img)
+                   0
+                   gl:RGB
+                   gl:UNSIGNED_BYTE
+                   (make-locative (blob->u8vector (image-data img))))
+    (u32vector-ref id 0)))
+
