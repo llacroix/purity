@@ -39,7 +39,7 @@
   (gl:BindBuffer gl:ELEMENT_ARRAY_BUFFER ibo_cube_elements)
   (let ((size (s32vector 0)))
     (gl:GetBufferParameteriv gl:ELEMENT_ARRAY_BUFFER gl:BUFFER_SIZE size)
-    (print "Size of triangles " (/ (s32vector-ref size 0) 2))
+    ;(print "Size of triangles " (/ (s32vector-ref size 0) 2))
     (gl:DrawElements gl:TRIANGLES (/ (s32vector-ref size 0) 2) gl:UNSIGNED_SHORT #f))
 
 

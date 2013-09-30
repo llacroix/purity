@@ -76,7 +76,8 @@
                    0
                    gl:RGB
                    gl:UNSIGNED_BYTE
-                   (make-locative (blob->u32vector (image-data img))))
-                   ; (make-locative (image-data img)))
+                   ;(make-locative (blob->u32vector (image-data img))))
+                   (make-locative (image-data img)))
+    (image-data img)
     (u32vector-ref id 0)))
 

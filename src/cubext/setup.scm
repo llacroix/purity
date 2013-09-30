@@ -104,7 +104,7 @@
   (set! ibo_cube_elements (CreateVBO16 gl:ELEMENT_ARRAY_BUFFER gl:STATIC_DRAW cube_elements))
 
   ; Load textures
-  (set! texture_id (CreateTexture gl:TEXTURE_2D (load-image "cubext/cube.png" force-channels/rgb)))
+  (set! texture_id (CreateTexture gl:TEXTURE_2D (load-image "cubext/cube.jpg" force-channels/rgb)))
 
   ; Load shaders
   (define vs (CreateShader gl:VERTEX_SHADER (LoadScript "cubext/cube.v.glsl")))

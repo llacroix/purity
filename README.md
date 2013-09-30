@@ -32,4 +32,10 @@ like millions of rainbows.
 Last Screenshot
 ===============
 
-![ScreenShot](screenshots/sc1.png)
+## Geometry and shaders
+
+![Geometry and shaders](screenshots/sc1.png)
+
+## Texture loading
+
+![Texture loading](screenshots/sc2.bmp)
