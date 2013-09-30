@@ -16,6 +16,8 @@
   (gl:Uniform1i uniform_mytexture 0)
 
   (gl:EnableVertexAttribArray attribute_coord3d)
+  (gl:EnableVertexAttribArray attribute_texcoord)
+
   (gl:BindBuffer gl:ARRAY_BUFFER vbo_cube_vertices)
   (gl:VertexAttribPointer 
      attribute_coord3d
@@ -25,7 +27,6 @@
      0
      #f)
 
-  (gl:EnableVertexAttribArray attribute_texcoord)
   (gl:BindBuffer gl:ARRAY_BUFFER vbo_cube_texcoords)
   (gl:VertexAttribPointer
      attribute_texcoord

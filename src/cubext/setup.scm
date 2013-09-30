@@ -21,39 +21,43 @@
   (InitResources))
 
 (define cube_vertices (f32vector
-    ; front
-    -1.0 -1.0  1.0
-     1.0 -1.0  1.0
-     1.0  1.0  1.0
-    -1.0  1.0  1.0
-    ; top
-    -1.0  1.0  1.0
-     1.0  1.0  1.0
-     1.0  1.0 -1.0
-    -1.0  1.0 -1.0
-    ; back
-     1.0 -1.0 -1.0
-    -1.0 -1.0 -1.0
-    -1.0  1.0 -1.0
-     1.0  1.0 -1.0
-    ; bottom
-    -1.0 -1.0 -1.0
-     1.0 -1.0 -1.0
-     1.0 -1.0  1.0
-    -1.0 -1.0  1.0
-    ; left
-    -1.0 -1.0 -1.0
-    -1.0 -1.0  1.0
-    -1.0  1.0  1.0
-    -1.0  1.0 -1.0
-    ; right
-     1.0 -1.0  1.0
-     1.0 -1.0 -1.0
-     1.0  1.0 -1.0
-     1.0  1.0  1.0))
+      ; front
+      -1.0 -1.0  1.0
+       1.0 -1.0  1.0
+       1.0  1.0  1.0
+      -1.0  1.0  1.0
+      ; top
+      -1.0  1.0  1.0
+       1.0  1.0  1.0
+       1.0  1.0 -1.0
+      -1.0  1.0 -1.0
+      ; back
+       1.0 -1.0 -1.0
+      -1.0 -1.0 -1.0
+      -1.0  1.0 -1.0
+       1.0  1.0 -1.0
+      ; bottom
+      -1.0 -1.0 -1.0
+       1.0 -1.0 -1.0
+       1.0 -1.0  1.0
+      -1.0 -1.0  1.0
+      ; left
+      -1.0 -1.0 -1.0
+      -1.0 -1.0  1.0
+      -1.0  1.0  1.0
+      -1.0  1.0 -1.0
+      ; right
+       1.0 -1.0  1.0
+       1.0 -1.0 -1.0
+       1.0  1.0 -1.0
+       1.0  1.0  1.0
+))
 
 (define cube_texcoords 
-    (let* ((a '(0 0 1 0 1 1 0 1))
+    (let* ((a '(0.0 0.0 
+                1.0 0.0 
+                1.0 1.0 
+                0.0 1))
            (vec (list->f32vector (append a a a a a a))))
       (print "Cube textcoords of size : " (f32vector-length vec))
       vec))
@@ -78,9 +82,9 @@
     20 21 22
     22 23 20))
 
-(define vbo_cube_vertices 0)
-(define vbo_cube_texcoords 0)
-(define ibo_cube_elements 0)
+(define vbo_cube_vertices -1)
+(define vbo_cube_texcoords -1)
+(define ibo_cube_elements -1)
 
 (define attribute_texcoord -1)
 (define attribute_coord3d -1)
@@ -100,7 +104,7 @@
   (set! ibo_cube_elements (CreateVBO16 gl:ELEMENT_ARRAY_BUFFER gl:STATIC_DRAW cube_elements))
 
   ; Load textures
-  (set! texture_id (CreateTexture gl:TEXTURE_2D (load-image "cubext/cube.jpg" force-channels/rgb)))
+  (set! texture_id (CreateTexture gl:TEXTURE_2D (load-image "cubext/cube.png" force-channels/rgb)))
 
   ; Load shaders
   (define vs (CreateShader gl:VERTEX_SHADER (LoadScript "cubext/cube.v.glsl")))
