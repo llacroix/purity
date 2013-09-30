@@ -3,6 +3,9 @@
 (require-extension gl glu glut)
 (require-extension srfi-19-core)
 
+(define screen_width 800)
+(define screen_height 600)
+
 (define vbo_triangle 0)
 (define program 0)
 (define attribute_coord2d 0)
@@ -39,7 +42,7 @@
     shader))
 
 (define (makeEngine)
-     (glut:InitWindowSize 800 600)
+     (glut:InitWindowSize screen_width screen_height)
      (glut:CreateWindow "simple")
     ; (glut:GameModeString "1024x768:32")
     ; (glut:EnterGameMode)
@@ -83,8 +86,12 @@
   ; (gl:Hint gl:PERSPECTIVE_CORRECTION_HINT gl:NICEST))
   )
 
+
 (define (reshapeFunc width height)
   (initFunc)
+
+  (set! screen_height height)
+  (set! screen_width width)
 
   (gl:Viewport 0 0 width height)
   (gl:MatrixMode gl:PROJECTION)

@@ -11,6 +11,9 @@
 (require "common/opengl")
 (require "common/vector")
 
+(define texture_id 0)
+(define uniform_mytexture 0)
+
 (define vp (mat4 1))
 (define anim (mat4 1))
 (define program 0)
