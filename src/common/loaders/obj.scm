@@ -52,6 +52,9 @@
                  (lst (cdr tokens)))
 
             ; Recursively loop returning the result of the recursion
+            ; Should check only once every one of tests and recall parse
+            ; with all identical parameters if nothing tested to true
+            ; should make the code a little bit faster
             (parse (read-line file)
                    (if (equal? type "o") (cadr tokens) name)
                    (if (equal? type "v") (append vertices (parse-vertex lst)) vertices)
