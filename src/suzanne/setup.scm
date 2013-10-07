@@ -11,6 +11,7 @@
 
 (require "common/opengl")
 (require "common/vector")
+(require "common/loaders/obj")
 
 
 (define (makeEngine)
@@ -20,70 +21,13 @@
 
   (InitResources))
 
-(define cube_vertices (f32vector
-      ; front
-      -1.0 -1.0  1.0
-       1.0 -1.0  1.0
-       1.0  1.0  1.0
-      -1.0  1.0  1.0
-      ; top
-      -1.0  1.0  1.0
-       1.0  1.0  1.0
-       1.0  1.0 -1.0
-      -1.0  1.0 -1.0
-      ; back
-       1.0 -1.0 -1.0
-      -1.0 -1.0 -1.0
-      -1.0  1.0 -1.0
-       1.0  1.0 -1.0
-      ; bottom
-      -1.0 -1.0 -1.0
-       1.0 -1.0 -1.0
-       1.0 -1.0  1.0
-      -1.0 -1.0  1.0
-      ; left
-      -1.0 -1.0 -1.0
-      -1.0 -1.0  1.0
-      -1.0  1.0  1.0
-      -1.0  1.0 -1.0
-      ; right
-       1.0 -1.0  1.0
-       1.0 -1.0 -1.0
-       1.0  1.0 -1.0
-       1.0  1.0  1.0
-))
-
-(define cube_texcoords 
-    (let* ((a '(0.0 0.0 
-                1.0 0.0 
-                1.0 1.0 
-                0.0 1))
-           (vec (list->f32vector (append a a a a a a))))
-      (print "Cube textcoords of size : " (f32vector-length vec))
-      vec))
-
-(define cube_elements (u16vector
-    ; front
-    0 1  2
-    2 3  0
-    ; top
-    4 5  6
-    6 7  4
-    ; back
-    8 9 10
-    10 11  8
-    ; bottom
-    12 13 14
-    14 15 12
-    ; left
-    16 17 18
-    18 19 16
-    ; right
-    20 21 22
-    22 23 20))
+(define offset 0)
+(define all_coords (f32vector 0))
+(define cube_elements (u16vector 0))
 
 (define vbo_cube_vertices -1)
 (define vbo_cube_texcoords -1)
+(define vbo_all -1)
 (define ibo_cube_elements -1)
 
 (define attribute_texcoord -1)
@@ -98,9 +42,15 @@
   (gl:Enable gl:DEPTH_TEST)
   (gl:BlendFunc gl:SRC_ALPHA gl:ONE_MINUS_SRC_ALPHA)
 
+  (define obj (load-obj "suzanne/suzanne.obj"))
+
+  (define vertices_a (list->f32vector (append (cadr obj) (cadr obj))))
+  (define cube_elements (list->u16vector (cadr (cdddr obj))))
+
+  (set! offset (* (length (cadr obj)) 4))
+
   ; Load vbos
-  (set! vbo_cube_vertices (CreateVBO32 gl:ARRAY_BUFFER gl:STATIC_DRAW cube_vertices))
-  (set! vbo_cube_texcoords (CreateVBO32 gl:ARRAY_BUFFER gl:STATIC_DRAW cube_texcoords))
+  (set! vbo_all (CreateVBO32 gl:ARRAY_BUFFER gl:STATIC_DRAW vertices_a))
   (set! ibo_cube_elements (CreateVBO16 gl:ELEMENT_ARRAY_BUFFER gl:STATIC_DRAW cube_elements))
 
   ; Load textures
@@ -127,6 +77,7 @@
 
     "VBOS: " endl
     "vbo_cube_texcoords: " vbo_cube_texcoords endl
+    "vbo_all: " vbo_all endl
     "vbo_cube_vertices: " vbo_cube_vertices endl
     "ibo_cube_elements: " ibo_cube_elements  endl
 

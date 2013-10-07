@@ -62,6 +62,11 @@
       (print "Cube textcoords of size : " (f32vector-length vec))
       vec))
 
+(define all_coords
+  (list->f32vector (append
+    (f32vector->list cube_vertices)
+    (f32vector->list cube_texcoords))))
+
 (define cube_elements (u16vector
     ; front
     0 1  2
@@ -84,6 +89,7 @@
 
 (define vbo_cube_vertices -1)
 (define vbo_cube_texcoords -1)
+(define vbo_all -1)
 (define ibo_cube_elements -1)
 
 (define attribute_texcoord -1)
@@ -101,6 +107,7 @@
   ; Load vbos
   (set! vbo_cube_vertices (CreateVBO32 gl:ARRAY_BUFFER gl:STATIC_DRAW cube_vertices))
   (set! vbo_cube_texcoords (CreateVBO32 gl:ARRAY_BUFFER gl:STATIC_DRAW cube_texcoords))
+  (set! vbo_all (CreateVBO32 gl:ARRAY_BUFFER gl:STATIC_DRAW all_coords))
   (set! ibo_cube_elements (CreateVBO16 gl:ELEMENT_ARRAY_BUFFER gl:STATIC_DRAW cube_elements))
 
   ; Load textures
@@ -127,6 +134,7 @@
 
     "VBOS: " endl
     "vbo_cube_texcoords: " vbo_cube_texcoords endl
+    "vbo_all: " vbo_all endl
     "vbo_cube_vertices: " vbo_cube_vertices endl
     "ibo_cube_elements: " ibo_cube_elements  endl
 

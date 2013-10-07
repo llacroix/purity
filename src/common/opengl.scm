@@ -20,6 +20,9 @@
   (let ((vboidx (u32vector 0)))
     (gl:GenBuffers 1 vboidx)
     (gl:BindBuffer type (u32vector-ref vboidx 0))
+
+    (print vertices)
+
     (gl:BufferData type
                    (f32vector-size vertices)
                    (make-locative vertices)
@@ -61,7 +64,6 @@
       (print "Shader status" status))
 
     shader))
-
 
 (define (CreateTexture type img)
   (let ((id (u32vector 0)))

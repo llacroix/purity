@@ -5,7 +5,6 @@
 (require-extension lolevel)
 
 
-
 (define (renderFunc)
   (gl:ClearColor 1 1 1 1)
   (gl:Clear (+ gl:COLOR_BUFFER_BIT gl:DEPTH_BUFFER_BIT))
@@ -19,23 +18,24 @@
   (gl:EnableVertexAttribArray attribute_coord3d)
   (gl:EnableVertexAttribArray attribute_texcoord)
 
-  (gl:BindBuffer gl:ARRAY_BUFFER vbo_cube_vertices)
+  (define offset (* (f32vector-length cube_vertices) 4))
+
+  (gl:BindBuffer gl:ARRAY_BUFFER vbo_all)
   (gl:VertexAttribPointer 
      attribute_coord3d
      3
      gl:FLOAT
      gl:FALSE
      0
-     #f)
+     (address->pointer 0))
 
-  (gl:BindBuffer gl:ARRAY_BUFFER vbo_cube_texcoords)
   (gl:VertexAttribPointer
      attribute_texcoord
      2
      gl:FLOAT
      gl:FALSE
      0
-     #f)
+     (address->pointer offset))
 
   (gl:BindBuffer gl:ELEMENT_ARRAY_BUFFER ibo_cube_elements)
   (let ((size (s32vector 0)))
