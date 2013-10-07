@@ -30,12 +30,10 @@
 (define vbo_all -1)
 (define ibo_cube_elements -1)
 
-(define attribute_texcoord -1)
-(define attribute_coord3d -1)
+(define attribute_vcoord -1)
+(define attribute_vnormal -1)
 (define uniform_mvp -1)
-(define uniform_mytexture -1)
-
-(define texture_id -1)
+(define uniform_inv_transp -1)
 
 (define (InitResources)
   (gl:Enable gl:BLEND)
@@ -53,19 +51,16 @@
   (set! vbo_all (CreateVBO32 gl:ARRAY_BUFFER gl:STATIC_DRAW vertices_a))
   (set! ibo_cube_elements (CreateVBO16 gl:ELEMENT_ARRAY_BUFFER gl:STATIC_DRAW cube_elements))
 
-  ; Load textures
-  (set! texture_id (CreateTexture gl:TEXTURE_2D (load-image "cubext/cube.jpg" force-channels/rgb)))
-
   ; Load shaders
-  (define vs (CreateShader gl:VERTEX_SHADER (LoadScript "cubext/cube.v.glsl")))
-  (define fs (CreateShader gl:FRAGMENT_SHADER (LoadScript "cubext/cube.f.glsl")))
+  (define vs (CreateShader gl:VERTEX_SHADER (LoadScript "suzanne/cube.v.glsl")))
+  (define fs (CreateShader gl:FRAGMENT_SHADER (LoadScript "suzanne/cube.f.glsl")))
 
   (set! program (CreateProgram (list vs fs)))
 
-  (set! attribute_coord3d (gl:GetAttribLocation program "coord3d"))
-  (set! attribute_texcoord (gl:GetAttribLocation program "texcoord"))
+  (set! attribute_vcoord (gl:GetAttribLocation program "v_coord"))
+  (set! attribute_vnormal (gl:GetAttribLocation program "v_normal"))
   (set! uniform_mvp (gl:GetUniformLocation program "mvp"))
-  (set! uniform_mytexture (gl:GetUniformLocation program "mytexture"))
+  (set! uniform_inv_transp (gl:GetUniformLocation program "m_3x3_inv_transp"))
 
   (define endl "\n")
 
@@ -82,11 +77,11 @@
     "ibo_cube_elements: " ibo_cube_elements  endl
 
     "Attributes: " endl endl
-    "attribute_coord3d: " attribute_coord3d endl
-    "attribute_texcoord: " attribute_texcoord endl
+    "attribute_coord3d: " attribute_vcoord endl
+    "attribute_texcoord: " attribute_vnormal endl
 
     "Uniforms: " endl endl
-    "uniform_mytexture: " uniform_mytexture endl
+    "uniform_mytexture: " uniform_inv_transp endl
     "uniform_mvp: " uniform_mvp endl
   )
 
@@ -139,6 +134,7 @@
 
   (gl:UseProgram program)
   (gl:UniformMatrix4fv uniform_mvp 1 gl:FALSE (mat-data vp))
+  (gl:UniformMatrix3fv uniform_inv_transp 1 gl:FALSE (mat-data (transpose (inverse (mat3 1)))))
 
   (glut:PostRedisplay))
 

@@ -39,3 +39,8 @@ Last Screenshot
 ## Texture loading
 
 ![Texture loading](screenshots/sc2.bmp)
+
+
+## Lightning and model loading (Wavefront obj)
+
+![Texture loading](screenshots/sc3.png)

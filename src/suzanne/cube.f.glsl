@@ -1,8 +1,6 @@
-varying vec2 f_texcoord;
-uniform sampler2D mytexture;
-
-void main(void) {
-  vec2 flipped_texcoord = vec2(f_texcoord.x,  1.0 - f_texcoord.y);
-  gl_FragColor = texture2D(mytexture, flipped_texcoord);
-  gl_FragColor = vec3(0.5, 0.5, 0.5);
+varying vec4 color;
+ 
+void main(void)
+{
+    gl_FragColor = color;
 }
