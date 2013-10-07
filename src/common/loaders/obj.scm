@@ -21,7 +21,10 @@
   ; Reduce by one since the indices start by 1 instead of 
   ; 0
   (define (parse-element lst)
-    (map (lambda (x) (- x 1)) (to-numbers lst)))
+    (map (lambda (x) (- x 1))
+        (to-numbers
+          (map (lambda (str)
+            (car (string-split str "/" #t))) lst))))
 
   ; Parse texcoord, if w is missing we add 0 in case it matters
   ; while I believe I should just trim it to u, v instead of adding w
@@ -45,21 +48,20 @@
         (if (equal? line #!eof)
 
           ; Return a list of everything once done
-          (list name vertices texcoords normals elements)
+          (list name
+                (reverse vertices)
+                (reverse texcoords)
+                (reverse normals)
+                (reverse elements))
 
           (let* ((tokens (string-tokenize line))
                  (type (car tokens))
                  (lst (cdr tokens)))
 
             ; Recursively loop returning the result of the recursion
-            ; Should check only once every one of tests and recall parse
-            ; with all identical parameters if nothing tested to true
-            ; should make the code a little bit faster
             (parse (read-line file)
                    (if (equal? type "o") (cadr tokens) name)
-                   (if (equal? type "v") (append vertices (parse-vertex lst)) vertices)
-                   (if (equal? type "vt") (append texcoords (parse-texcoord lst)) texcoords)
-                   (if (equal? type "vn") (append normals (parse-normal lst)) normals)
-                   (if (equal? type "f") (append elements (parse-element lst)) elements))))))))
-
-; (print (load-obj "./suzanne.obj"))
+                   (if (equal? type "v") (append (reverse (parse-vertex lst)) vertices) vertices)
+                   (if (equal? type "vt") (append (reverse (parse-texcoord lst)) texcoords) texcoords)
+                   (if (equal? type "vn") (append (reverse (parse-normal lst))) normals)
+                   (if (equal? type "f") (append (reverse (parse-element lst)) elements) elements))))))))
