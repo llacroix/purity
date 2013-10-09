@@ -21,7 +21,7 @@
     (gl:GenBuffers 1 vboidx)
     (gl:BindBuffer type (u32vector-ref vboidx 0))
 
-    (print vertices)
+    ;(print vertices)
 
     (gl:BufferData type
                    (f32vector-size vertices)

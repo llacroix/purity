@@ -61,7 +61,7 @@
             ; Recursively loop returning the result of the recursion
             (parse (read-line file)
                    (if (equal? type "o") (cadr tokens) name)
-                   (if (equal? type "v") (append (reverse (parse-vertex lst)) vertices) vertices)
-                   (if (equal? type "vt") (append (reverse (parse-texcoord lst)) texcoords) texcoords)
-                   (if (equal? type "vn") (append (reverse (parse-normal lst))) normals)
-                   (if (equal? type "f") (append (reverse (parse-element lst)) elements) elements))))))))
+                   (if (equal? type "v") (append-reverse (parse-vertex lst) vertices) vertices)
+                   (if (equal? type "vt") (append-reverse (parse-texcoord lst) texcoords) texcoords)
+                   (if (equal? type "vn") (append-reverse (parse-normal lst) normals) normals)
+                   (if (equal? type "f") (append-reverse (parse-element lst) elements) elements))))))))
