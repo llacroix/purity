@@ -12,6 +12,31 @@ G
 H")))
 
 (describe "String ports"
+    (it "can be opened"
+        (define port (Make-Port))
+
+        (do-not (expect port (is (void))))
+        (expect port (is input-port?)))
+
+    (it "can be closed"
+        (define str-port (Make-Port))
+
+        ; Using call/cc we can check the value
+        ; returned by the exception, it should
+        ; raise an exception to read a char or line from 
+        ; a closed port
+        (define ret (call/cc
+          (lambda (k)
+            (with-exception-handler
+                (lambda (x)
+                    (k #t))
+
+                (lambda ()
+                  (expect (close-input-port str-port) (is (void)))
+                  (do-not (expect (read-line str-port) (is "A"))))))))
+
+        (expect ret (is #t)))
+
 
     (it "can read lines"
         (define str-port (Make-Port))
