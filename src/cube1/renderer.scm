@@ -28,7 +28,7 @@
      gl:FLOAT
      gl:FALSE
      0
-     (address->pointer 0))
+     0)
 
   (gl:VertexAttribPointer
      attribute_texcoord
@@ -36,7 +36,7 @@
      gl:FLOAT
      gl:FALSE
      0
-     (address->pointer offset))
+     offset)
 
   (gl:BindBuffer gl:ELEMENT_ARRAY_BUFFER ibo_cube_elements)
   (let ((size (gl:GetBufferParameteriv gl:ELEMENT_ARRAY_BUFFER gl:BUFFER_SIZE)))

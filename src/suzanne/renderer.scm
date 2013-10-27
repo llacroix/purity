@@ -27,7 +27,7 @@
      gl:FLOAT
      gl:FALSE
      0
-     (address->pointer 0))
+     0)
 
   (gl:VertexAttribPointer 
      attribute_vnormal
@@ -35,7 +35,7 @@
      gl:FLOAT
      gl:FALSE
      0
-     (address->pointer 0))
+     0)
 
   (gl:BindBuffer gl:ELEMENT_ARRAY_BUFFER ibo_cube_elements)
 

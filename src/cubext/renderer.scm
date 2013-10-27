@@ -27,7 +27,7 @@
      gl:FLOAT
      gl:FALSE
      0
-     #f)
+     0)
 
   (gl:BindBuffer gl:ARRAY_BUFFER vbo_cube_texcoords)
   (gl:VertexAttribPointer
@@ -36,7 +36,7 @@
      gl:FLOAT
      gl:FALSE
      0
-     #f)
+     0)
 
   (gl:BindBuffer gl:ELEMENT_ARRAY_BUFFER ibo_cube_elements)
   (let ((size (gl:GetBufferParameteriv gl:ELEMENT_ARRAY_BUFFER gl:BUFFER_SIZE)))

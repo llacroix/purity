@@ -19,7 +19,7 @@
      gl:FLOAT
      gl:FALSE
      0
-     #f)
+     0)
 
   (gl:EnableVertexAttribArray attribute_v_color)
   (gl:BindBuffer gl:ARRAY_BUFFER vbo_cube_colors)
@@ -29,7 +29,7 @@
      gl:FLOAT
      gl:FALSE
      0
-     #f)
+     0)
 
   (gl:BindBuffer gl:ELEMENT_ARRAY_BUFFER ibo_cube_elements)
   (let ((size (gl:GetBufferParameteriv gl:ELEMENT_ARRAY_BUFFER gl:BUFFER_SIZE)))

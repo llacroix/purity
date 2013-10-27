@@ -26,7 +26,7 @@
      gl:FLOAT
      #\0
      0
-     (make-locative vertices))
+     vertices)
 
 
   (gl:DrawArrays gl:TRIANGLES 0 3)

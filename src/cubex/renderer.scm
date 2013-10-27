@@ -21,7 +21,7 @@
      gl:FLOAT
      gl:FALSE
      0
-     #f)
+     0)
 
   (gl:EnableVertexAttribArray attribute_v_color)
   (gl:BindBuffer gl:ARRAY_BUFFER vbo_cube_colors)
@@ -31,7 +31,7 @@
      gl:FLOAT
      gl:FALSE
      0
-     #f)
+     0)
 
   (define model (translate anim (vec3 0 0 -4)))
   (define model2 (rotate (translate anim (vec3 1 1 -4)) 10
