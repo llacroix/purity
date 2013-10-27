@@ -3,6 +3,7 @@
 (require-extension srfi-4)
 (require-extension srfi-19-core)
 (require-extension lolevel)
+(require "common/opengl-monkey")
 
 (define vertices (f32vector 0.0  0.8
                             -0.8 -0.8

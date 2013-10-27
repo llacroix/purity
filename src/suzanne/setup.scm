@@ -25,8 +25,6 @@
 (define all_coords (f32vector 0))
 (define cube_elements (u16vector 0))
 
-(define vbo_cube_vertices -1)
-(define vbo_cube_texcoords -1)
 (define vbo_all -1)
 (define ibo_cube_elements -1)
 
@@ -40,7 +38,7 @@
   (gl:Enable gl:DEPTH_TEST)
   (gl:BlendFunc gl:SRC_ALPHA gl:ONE_MINUS_SRC_ALPHA)
 
-  (define obj (load-obj "suzanne/suzanne.obj"))
+  (define obj (call-with-input-file "suzanne/suzanne.obj" load-obj))
 
   (define vertices_a (list->f32vector (append (cadr obj) (cadr obj))))
   (define cube_elements (list->u16vector (cadr (cdddr obj))))
@@ -71,9 +69,7 @@
     "Program: " program endl endl
 
     "VBOS: " endl
-    "vbo_cube_texcoords: " vbo_cube_texcoords endl
-    "vbo_all: " vbo_all endl
-    "vbo_cube_vertices: " vbo_cube_vertices endl
+    "vbo_all" vbo_all endl
     "ibo_cube_elements: " ibo_cube_elements  endl
 
     "Attributes: " endl endl
@@ -104,7 +100,7 @@
 
   (define angle (* (glut:Get glut:ELAPSED_TIME) (/ 1 1000) 45))
 
-  (set! t (hop (+ t 0.0005)))
+  (set! t (hop (+ t 0.02)))
 
   (define axis_y (vec3 0 1 0))
 

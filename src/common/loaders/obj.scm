@@ -1,7 +1,7 @@
 (require-extension srfi-4 extras srfi-13
                    list-utils)
 
-(define (load-obj filename)
+(define (load-obj port)
 
   (define (to-numbers lst)
     (map string->number lst))
@@ -35,33 +35,31 @@
         (append uvs (list 0))
         uvs)))
 
-  (call-with-input-file filename
-    (lambda (file)
-      ; A recursive let to iteratively replace our parameters
-      (let parse ((line (read-line file))
-                  (name "")
-                  (vertices (list))
-                  (texcoords (list))
-                  (normals (list))
-                  (elements (list)))
+  ; A recursive let to iteratively replace our parameters
+  (let parse ((line (read-line port))
+              (name "")
+              (vertices (list))
+              (texcoords (list))
+              (normals (list))
+              (elements (list)))
 
-        (if (equal? line #!eof)
+    (if (eof-object? line)
 
-          ; Return a list of everything once done
-          (list name
-                (reverse vertices)
-                (reverse texcoords)
-                (reverse normals)
-                (reverse elements))
+      ; Return a list of everything once done
+      (list name
+            (reverse vertices)
+            (reverse texcoords)
+            (reverse normals)
+            (reverse elements))
 
-          (let* ((tokens (string-tokenize line))
-                 (type (car tokens))
-                 (lst (cdr tokens)))
+      (let* ((tokens (string-tokenize line))
+             (type (car tokens))
+             (lst (cdr tokens)))
 
-            ; Recursively loop returning the result of the recursion
-            (parse (read-line file)
-                   (if (equal? type "o") (cadr tokens) name)
-                   (if (equal? type "v") (append-reverse (parse-vertex lst) vertices) vertices)
-                   (if (equal? type "vt") (append-reverse (parse-texcoord lst) texcoords) texcoords)
-                   (if (equal? type "vn") (append-reverse (parse-normal lst) normals) normals)
-                   (if (equal? type "f") (append-reverse (parse-element lst) elements) elements))))))))
+        ; Recursively loop returning the result of the recursion
+        (parse (read-line port)
+               (if (equal? type "o") (cadr tokens) name)
+               (if (equal? type "v") (append-reverse (parse-vertex lst) vertices) vertices)
+               (if (equal? type "vt") (append-reverse (parse-texcoord lst) texcoords) texcoords)
+               (if (equal? type "vn") (append-reverse (parse-normal lst) normals) normals)
+               (if (equal? type "f") (append-reverse (parse-element lst) elements) elements))))))

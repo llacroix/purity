@@ -4,6 +4,8 @@
 (require-extension srfi-19-core)
 (require-extension lolevel)
 
+(require "common/opengl-monkey")
+
 
 (define (renderFunc)
   (gl:ClearColor 1 1 1 1)
@@ -36,9 +38,9 @@
      (address->pointer 0))
 
   (gl:BindBuffer gl:ELEMENT_ARRAY_BUFFER ibo_cube_elements)
-  (let ((size (s32vector 0)))
-    (gl:GetBufferParameteriv gl:ELEMENT_ARRAY_BUFFER gl:BUFFER_SIZE size)
-    (gl:DrawElements gl:QUADS (/ (s32vector-ref size 0) 2) gl:UNSIGNED_SHORT #f))
+
+  (let ((size (gl:GetBufferParameteriv gl:ELEMENT_ARRAY_BUFFER gl:BUFFER_SIZE)))
+    (gl:DrawElements gl:QUADS (/ size 2) gl:UNSIGNED_SHORT #f))
 
   (gl:DisableVertexAttribArray attribute_vcoord)
   (gl:DisableVertexAttribArray attribute_vnormal)

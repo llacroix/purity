@@ -2,6 +2,7 @@
 (require-extension srfi-4)
 (require-extension srfi-19-core)
 (require-extension lolevel)
+(require "common/opengl-monkey")
 
 (define (with-matrix body)
   (gl:PushMatrix)

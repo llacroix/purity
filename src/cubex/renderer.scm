@@ -3,6 +3,7 @@
 (require-extension srfi-4)
 (require-extension srfi-19-core)
 (require-extension lolevel)
+(require "common/opengl-monkey")
 
 (define old 0)
 
@@ -45,9 +46,8 @@
     (gl:UniformMatrix4fv uniform_mvp 1 gl:FALSE (mat-data mvp))
     (gl:BindBuffer gl:ELEMENT_ARRAY_BUFFER ibo_cube_elements)
 
-    (let ((size (s32vector 0)))
-      (gl:GetBufferParameteriv gl:ELEMENT_ARRAY_BUFFER gl:BUFFER_SIZE size)
-      (gl:DrawElements gl:TRIANGLES (/ (s32vector-ref size 0) 2) gl:UNSIGNED_SHORT #f))
+    (let ((size (gl:GetBufferParameteriv gl:ELEMENT_ARRAY_BUFFER gl:BUFFER_SIZE)))
+      (gl:DrawElements gl:TRIANGLES (/ size 2) gl:UNSIGNED_SHORT #f))
 
     (if (> count 0)
       (cuber (- count 1) mvp)))
